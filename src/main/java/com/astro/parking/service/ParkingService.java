@@ -16,15 +16,6 @@ import com.astro.parking.model.Parking;
 public class ParkingService {
     
     private static Map<String, Parking> parkingMap = new HashMap<>();
- 
-    static {
-        var id = getUUID();
-        var id1 = getUUID();
-        Parking parking = new Parking(id, "DMS-1111", "SC", "CELTA", "PRETO");
-        Parking parking1 = new Parking(id1, "AWD-2345", "SP", "VW GOL", "BRANCO");
-        parkingMap.put(id, parking);
-        parkingMap.put(id1, parking1);
-    }
 
     public List<Parking> findAll(){
         return parkingMap.values().stream().collect(Collectors.toList());
@@ -67,6 +58,13 @@ public class ParkingService {
         parkingMap.replace(id, parking);
 
         return parking;
+    }
+
+    public Parking checkOut(String id){
+        Parking parking = findById(id);
+        parking.setExitDate(LocalDateTime.now());
+        parking.setBill(ParkingCheckOut.getBill(parking));
+        return parkingMap.put(id, parking);
     }
 
 }
