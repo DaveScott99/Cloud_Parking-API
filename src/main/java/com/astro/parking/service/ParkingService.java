@@ -22,7 +22,7 @@ public class ParkingService {
     }
 
     public Parking findById(String id){
-        
+
         Parking parking = parkingMap.get(id);
 
         if (parking == null){
