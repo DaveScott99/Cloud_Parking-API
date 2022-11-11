@@ -19,8 +19,12 @@ import com.astro.parking.controller.mapper.ParkingMapper;
 import com.astro.parking.model.Parking;
 import com.astro.parking.service.ParkingService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/parking")
+@Api(tags = "Parking Controller")
 public class ParkingController {
 
     private final ParkingService parkingService;
@@ -32,6 +36,7 @@ public class ParkingController {
     }
     
     @GetMapping
+    @ApiOperation("Find all Parkings")
     public ResponseEntity<List<ParkingDTO>> findAll() {
         List<Parking> parkingList =  parkingService.findAll();
         List<ParkingDTO> result = parkingMapper.toParkingDTOList(parkingList);
@@ -41,6 +46,7 @@ public class ParkingController {
     }
     
     @GetMapping("/{id}")
+    @ApiOperation("Find by id in Parkings")
     public ResponseEntity<ParkingDTO> findById(@PathVariable String id) {
         Parking parking =  parkingService.findById(id);
         ParkingDTO result = parkingMapper.toParkingDTO(parking);
@@ -50,6 +56,7 @@ public class ParkingController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation("Delete Parking")
     public ResponseEntity delete(@PathVariable String id) {
         parkingService.delete(id);
         return ResponseEntity.noContent().build();
@@ -57,6 +64,7 @@ public class ParkingController {
     }
 
     @PostMapping
+    @ApiOperation("Create Parking")
     public ResponseEntity<ParkingDTO> create(@RequestBody ParkingCreateDTO parkingDTO) {
 
         var parkingCreate = parkingMapper.toParkingCreate(parkingDTO);
@@ -69,6 +77,7 @@ public class ParkingController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation("Update Parking")
     public ResponseEntity<ParkingDTO> update(@PathVariable String id, @RequestBody ParkingCreateDTO parkingDTO) {
 
         var parkingCreate = parkingMapper.toParkingCreate(parkingDTO);
@@ -81,6 +90,7 @@ public class ParkingController {
     }
 
     @PostMapping("/{id}")
+    @ApiOperation("Check-out Parking")
     public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id){
         Parking parking = parkingService.checkOut(id);
         return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
